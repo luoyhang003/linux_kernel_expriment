@@ -134,17 +134,159 @@ void get_disk_requests()
 	fclose(in);
 }
 
-void get_context_switches()
 
+/*
+ * To get context switches times
+ */
+void get_context_switches_times()
+{
+	FILE *in;
+	char c[LB_SIZE], ctxt[10];
+	int times;
+
+	in = fopen("/proc/stat", "r");
+
+	while((fgets(c, LB_SIZE, in)) != NULL)
+	{
+		sscanf(c, "%s %d", ctxt, &times);
+
+		if(strcmp(ctxt, "ctxt") == 0)
+		{
+			printf("Context switches times: %d\n", times);
+		}
+	}
+
+	fclose(in);
+}
+
+
+/*
+ * To get the number of threads started
+ */
+void get_threads_num()
+{
+	FILE *in;
+	char c[LB_SIZE], processes[10];
+	int num;
+
+	in = fopen("/proc/stat", "r");
+
+	while((fgets(c, LB_SIZE, in)) != NULL)
+	{
+		sscanf(c, "%s %d", processes, &num);
+
+		if(strcmp(processes, "processes") == 0)
+		{
+			printf("Number of threads: %d\n", num);
+		}
+	}
+
+	fclose(in);
+}
+
+void get_total_mem_size()
+{
+	FILE *in;
+	char c[LB_SIZE], flag[20];
+	int num;
+
+	in = fopen("/proc/meminfo", "r");
+
+	while((fgets(c, LB_SIZE, in)) != NULL)
+	{
+		sscanf(c, "%s %d", flag, &num);
+
+		if(strcmp(flag, "MemTotal:") == 0)
+		{
+			printf("Total memory size: %d\n", num);
+		}
+	}
+	fclose(in);
+}
+
+void get_available_mem_size()
+{
+	FILE *in;
+	char c[LB_SIZE], flag[20];
+	int num;
+
+	in = fopen("/proc/meminfo", "r");
+
+	while((fgets(c, LB_SIZE, in)) != NULL)
+	{
+		sscanf(c, "%s %d", flag, &num);
+
+		if(strcmp(flag, "MemAvailable:") == 0)
+		{
+			printf("Available memory size: %d\n", num);
+		}
+	}
+	fclose(in);
+}
+
+
+void get_load_averange()
+{
+	FILE *in;
+	in = fopen("/proc/loadavg", "r");
+	char c[LB_SIZE];
+	float num1, num2, num3;
+
+	fscanf(in, "%f %f %f", &num1, &num2, &num3);
+
+	printf("Load Averange:\n");
+	printf("\tAverange threads in 1 minute: %f\n", num1);
+	printf("\tAverange threads in 5 minute: %f\n", num2);
+	printf("\tAverange threads in 15 minute: %f\n", num3);
+
+	fclose(in);
+}
 
 int main(int argc, char *argv[])
 {
-	get_cpu_type();
-	get_kernel_version();
-	get_running_time();
-	get_cpu_ticks();
-	get_disk_requests();
+	if(argc == 1){
+		printf("Usage:  [-a] Print Problem A\n\t[-b] Print Problem B\n\t[-c] Print Problem C\n\t[-d] Print Problem D\n");
+	}
+	else
+	{
+		sscanf(argv[1], "%c %c", &arg1, &arg2);
+		if(arg1 != '-')
+		{
+			printf("Usage:  [-a] Print Problem A\n\t[-b] Print Problem B\n\t[-c] Print Problem C\n\t[-d] Print Problem D\n");
+		}
+		else
+		{
+			if(arg2 == 'a')
+			{
+				get_cpu_type();
+				get_kernel_version();
+			}
+			else if(arg2 == 'b')
+			{
+				get_running_time();
+			}
+			else if(arg2 == 'c')
+			{
+				get_cpu_ticks();
+				get_disk_requests();	
+				get_context_switches_times();
+				get_threads_num();
+			}
+			else if(arg2 == 'd')
+			{
+				get_total_mem_size();
+				get_available_mem_size();
+				get_load_averange();	
+			}
+			else
+			{
+				printf("Usage:  [-a] Print Problem A\n\t[-b] Print Problem B\n\t[-c] Print Problem C\n\t[-d] Print Problem D\n");
+			}
+		}
+	}
 }
+
+
 
 /* TODO
 Problem A:
@@ -157,12 +299,12 @@ Problem B:
 Problem C:
 * 1. durations when CPU ticks on USER/KERNEL/IDLE states
 * 2. times of disks requests
-3. times of context switches
-4. times of threads starting
+* 3. times of context switches
+* 4. number of threads started
 
 Problem D:
-1. total memory size
-2. available memory size
-3. load averange of the system
+* 1. total memory size
+* 2. available memory size
+* 3. load averange of the system
 */
 

@@ -21,7 +21,6 @@ void get_prompt(char *prompt)
 
 	pwd = getpwuid(getuid());
 	getcwd(pathname, max_path_len);
-//	printf("%s\n%s", pwd->pw_name, pwd->pw_dir);
 
 	if(gethostname(hostname, max_path_len) == 0)
 	{
@@ -33,7 +32,6 @@ void get_prompt(char *prompt)
 	}
 	prompt_length = strlen(prompt);
 
-//	if(strlen(pathname) < strlen(pwd->pw_dir)) {printf("%s\n%s\n",pathname, pwd->pw_dir);}
 	
 	if(strlen(pathname) < strlen(pwd->pw_dir) || (strncmp(pathname, pwd->pw_dir, strlen(pwd->pw_dir))) != 0)
 	{

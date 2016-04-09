@@ -8,8 +8,10 @@
  */
 
 #include<stdio.h>
-#include<type.h>
+#include<sys/types.h>
 #include<pwd.h>
+#include<string.h>
 
 
+struct passwd *pwd;
 

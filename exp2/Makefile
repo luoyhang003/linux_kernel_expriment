@@ -1,5 +1,5 @@
-lshell: lshell.h lshell.c prompt.c
-	gcc lshell.c prompt.c -o lshell
+lshell: lshell.h lshell.c prompt.c readcmd.c
+	gcc lshell.c prompt.c readcmd.c -o lshell -D DEBUG -D READLINE_ON -I /usr/include -lreadline
 
-clean: 
+clean:
 	rm -f lshell

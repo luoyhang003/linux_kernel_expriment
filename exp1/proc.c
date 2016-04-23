@@ -39,7 +39,9 @@ void get_cpu_type()
 	{
 		fgets(c, LB_SIZE, in); /* read cpu type line */
 	}
-	printf("CPU type: %s", c+13); /* print info */
+	printf("------------------------------------------------------------\n");
+	printf("| CPU type      | %s ", c+12); /* print info */
+	printf("------------------------------------------------------------\n");
 
 	fclose(in);
 }
@@ -50,10 +52,10 @@ void get_cpu_type()
 void get_kernel_version()
 {
 	FILE *in;
-	char c[LB_SIZE];
-	
+	char c[30];
+
 	in = fopen("/proc/version", "r"); /* open /proc/version */
-	fgets(c, LB_SIZE, in);
+	fgets(c, 30, in);
 	printf("Kernel Version: %s", c);
 
 	fclose(in);
@@ -72,7 +74,7 @@ void get_running_time()
 	    minute = 0,
 	    second = 0;
 
-	in = fopen("/proc/uptime", "r"); 
+	in = fopen("/proc/uptime", "r");
 	fscanf(in, "%d", &time);
 
 	day = time / 86400;
@@ -83,7 +85,7 @@ void get_running_time()
 	time = time % 60;
 	second = time;
 
-	printf("System running time: %d days, %d hours, %d minutes, %d seconds.\n", day, hour, minute, second); 
+	printf("System running time: %d days, %d hours, %d minutes, %d seconds.\n", day, hour, minute, second);
 
 	fclose(in);
 }
@@ -123,7 +125,7 @@ void get_disk_requests()
 	{
 		sscanf(c, "%d %d %s %d %d %d %d %d", &nothing, &nothing, disk, &read, &nothing, &nothing, &nothing, &write);
 
-		if(disk[0] == 's' && disk[1] == 'd'){		
+		if(disk[0] == 's' && disk[1] == 'd'){
 			printf("Disk requests of [%s]:\n", disk);
 			printf("\tRead requests: %d times.\n", read);
 			printf("\tWrite requests: %d times.\n", write);
@@ -268,7 +270,7 @@ int main(int argc, char *argv[])
 			else if(arg2 == 'c')
 			{
 				get_cpu_ticks();
-				get_disk_requests();	
+				get_disk_requests();
 				get_context_switches_times();
 				get_threads_num();
 			}
@@ -276,7 +278,7 @@ int main(int argc, char *argv[])
 			{
 				get_total_mem_size();
 				get_available_mem_size();
-				get_load_averange();	
+				get_load_averange();
 			}
 			else
 			{

@@ -1,8 +1,16 @@
-#include"lshell.h"
+#include "lshell.h"
+
+void test(void)
+{
+	char **command = NULL;
+	char **parameters;	
+
+	char prompt[MAX_PROMPT];
+	get_prompt(prompt);
+	printf("%s\n", prompt);
+}
 
 int main()
 {
-	char prompt[128];
-	get_prompt(prompt);
-	printf("%s\n", prompt);
+
 }

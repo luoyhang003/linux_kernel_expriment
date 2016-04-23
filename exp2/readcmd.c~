@@ -1,0 +1,36 @@
+#include "lshell.h"
+#include<readline/readline.h>
+#include<readline/history.h>
+
+int read_command(char **command, char **parameters, char *prompt)
+{
+	free(buffer);
+	buffer = readline(prompt);
+	if(feof(stdin))
+	{
+		printf("\n");
+		exit(0);
+	}
+	
+	if(buffer[0] == '\0')
+	{
+		return -1;
+	}
+	
+	int count = 0;
+	char *start, *end;
+	int isFinished = 0;
+
+	start = end = buffer;
+
+	while(isFinished == 0)
+	{
+		while((*start == ' ' && *end == ' ') || (*start == '\t' && *end == '\t'))
+		{
+			start++;
+			end++;
+		}
+	}
+}
+
+

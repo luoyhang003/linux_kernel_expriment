@@ -1,3 +1,13 @@
+/*
+ * 		readcmd.c ---- Description
+ *------------------------------------------------------------
+ * Date: April 21th, 2016
+ * Copyright: Written by Jason Luo - luoyhang003@hotmail.com
+ * Function: Reading commands from the Shell
+ *------------------------------------------------------------
+ */
+
+
 #include "lshell.h"
 #include <readline/readline.h>
 #include <readline/history.h>
@@ -86,9 +96,8 @@ int read_command(char **command, char **parameters, char *prompt)
 	}
 	parameters[count-1] = NULL;
 #ifdef DEBUG
-    /*input analysis*/
     printf("input analysis:\n");
-    printf("pathname:[%s]\ncommand:[%s]\nparameters:\n",*command,parameters[0]);
+    printf("command:[%s]\ncommand:[%s]\nparameters:\n",*command,parameters[0]);
     int i;
     for(i=0;i<count-1;i++)
         printf("[%s]\n",parameters[i]);

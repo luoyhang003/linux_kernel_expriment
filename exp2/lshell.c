@@ -5,7 +5,10 @@ void test(void)
 	char **command = NULL;
 	char **parameters;
 
+	int num_para;
+
 	char prompt[MAX_PROMPT];
+	struct parse_struct info;
 //	get_prompt(prompt);
 #ifdef DEBUG
 	printf("TEST:%s\n", prompt);
@@ -19,8 +22,15 @@ void test(void)
 	while(TRUE){
         get_prompt(prompt);
 
-        if(-1 == read_command(&command, parameters, prompt))
-            break;
+        num_para = read_command(&command, parameters, prompt);
+
+        if(-1 == num_para)
+        {
+            continue;
+        }
+        num_para--;
+        parse(parameters, num_para, &info);
+
 	}
 //	command
 }

@@ -61,9 +61,9 @@
              info->another_command = parameters[i+1];
              info->another_parameters = &parameters[i+1];
              for(p = info->another_parameters[0] + strlen(info->another_parameters[0]);
-                 p != &(info->another_parameters[0][0]) && p != '/';
+                 p != &(info->another_parameters[0][0]) && *p != '/';
                  p--);
-             if(p == '/')
+             if(*p == '/')
              {
                  p++;
              }

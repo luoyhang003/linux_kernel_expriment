@@ -7,27 +7,34 @@
  *------------------------------------------------------------
  */
 
-#include<stdio.h>
-#include<stdlib.h>
-#include<sys/types.h>
-#include<pwd.h>
-#include<string.h>
-#include<readline/readline.h>
-#include<readline/history.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <sys/stat.h>
+#include <pwd.h>
+#include <errno.h>
+#include <string.h>
+#include <signal.h>
 
 #define MAX_PROMPT 1024
-#define MAX_ARGS 32
-#define MAX_LINE 1024
-#define TRUE 1
+#define MAX_ARGS 20
+#define MAX_LINE 4096
+
+struct parse_struct;
 
 struct passwd *pwd;
-struct parse_struct;
 char *buffer;
 
 
 void get_prompt(char*);
 int read_command(char**, char**, char*);
 int parse(char**, int, struct parse_struct*);
+int buildin_commands(char*, char**);
+void excute(void);
+void sig_handler(int signal);
 
 #ifndef PARSE_STRUCT
 #define PARSE_STRUCT

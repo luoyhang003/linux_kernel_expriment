@@ -78,7 +78,8 @@ int read_command(char **command, char **parameters, char *prompt)
             parameters[count-1] = start;
             count++;
         }
-        else{
+        else
+        {
             break;
         }
 

@@ -25,16 +25,16 @@ void get_prompt(char *prompt)
 
 	if(gethostname(hostname, max_path_len) == 0)
 	{
-		sprintf(prompt, "lshell>%s@%s:", pwd->pw_name, hostname);
+		sprintf(prompt, "[lshell]%s@%s:", pwd->pw_name, hostname);
 	}
 	else
 	{
-		sprintf(prompt, "lshell>%s@unknown:", pwd->pw_name);
+		sprintf(prompt, "[lshell]%s@unknown:", pwd->pw_name);
 	}
 	prompt_length = strlen(prompt);
 
-	
-	if(strlen(pathname) < strlen(pwd->pw_dir) || (strncmp(pathname, pwd->pw_dir, strlen(pwd->pw_dir))) != 0)
+
+	if(strlen(pathname) < strlen(pwd->pw_dir) || strncmp(pathname, pwd->pw_dir, strlen(pwd->pw_dir)) != 0)
 	{
 		sprintf(prompt + prompt_length, "%s", pathname);
 	}
@@ -43,13 +43,13 @@ void get_prompt(char *prompt)
 		sprintf(prompt + prompt_length, "~%s", pathname + strlen(pwd->pw_dir));
 	}
 	prompt_length = strlen(prompt);
-	if(geteuid() != 0)
+	if(geteuid() == 0)
 	{
-		sprintf(prompt + prompt_length, "$");
+		sprintf(prompt + prompt_length, "#");
 	}
 	else
 	{
-		sprintf(prompt + prompt_length, "#");
+		sprintf(prompt + prompt_length, "$");
 	}
 	return;
 }

@@ -56,7 +56,8 @@ void get_kernel_version()
 
 	in = fopen("/proc/version", "r"); /* open /proc/version */
 	fgets(c, 30, in);
-	printf("Kernel Version: %s", c);
+	printf("|Kernel Version |%s\n", c);
+	printf("------------------------------------------------------------\n");
 
 	fclose(in);
 }
@@ -84,8 +85,9 @@ void get_running_time()
 	minute = time / 60;
 	time = time % 60;
 	second = time;
-
-	printf("System running time: %d days, %d hours, %d minutes, %d seconds.\n", day, hour, minute, second);
+	printf("-----------------------------------------------------------------------\n");
+	printf("| System running time  | %d days  |  %d hours  | %d minutes  | %d seconds |\n", day, hour, minute, second);
+	printf("-----------------------------------------------------------------------\n");
 
 	fclose(in);
 }
@@ -100,10 +102,16 @@ void get_cpu_ticks()
 
 	in = fopen("/proc/stat", "r");
 	fscanf(in, "%s %d %d %d %d", c, &user, &nice, &system, &idle);
-
-	printf("User ticks: %d\n", user);
-	printf("System ticks: %d\n", system);
-	printf("Idle ticks: %d\n", idle);
+    printf("==============================================\n");
+    printf("CPU Ticks:\n");
+    printf("==============================================\n");
+	printf("--------------------------------------------------\n");
+	printf("| User ticks     | %d            |\n", user);
+	printf("--------------------------------------------------\n");
+	printf("| System ticks   | %d             |\n", system);
+	printf("--------------------------------------------------\n");
+	printf("| Idle ticks     | %d            |\n", idle);
+	printf("--------------------------------------------------\n");
 
 	fclose(in);
 }
@@ -126,10 +134,16 @@ void get_disk_requests()
 		sscanf(c, "%d %d %s %d %d %d %d %d", &nothing, &nothing, disk, &read, &nothing, &nothing, &nothing, &write);
 
 		if(disk[0] == 's' && disk[1] == 'd'){
+            printf("==============================================\n");
 			printf("Disk requests of [%s]:\n", disk);
-			printf("\tRead requests: %d times.\n", read);
-			printf("\tWrite requests: %d times.\n", write);
-			printf("\tTotal requests: %d times.\n", read+write);
+            printf("==============================================\n");
+            printf("----------------------------------------------\n");
+			printf("| Read requests         |  %d times       |\n", read);
+            printf("----------------------------------------------\n");
+			printf("| Write requests        |  %d times        |\n", write);
+            printf("----------------------------------------------\n");
+			printf("| Total requests        |  %d times       |\n", read+write);
+            printf("----------------------------------------------\n");
 			break;
 		}
 	}
@@ -154,7 +168,9 @@ void get_context_switches_times()
 
 		if(strcmp(ctxt, "ctxt") == 0)
 		{
-			printf("Context switches times: %d\n", times);
+			printf("| Context switches times | %d           |\n", times);
+            printf("----------------------------------------------\n");
+
 		}
 	}
 
@@ -179,7 +195,9 @@ void get_threads_num()
 
 		if(strcmp(processes, "processes") == 0)
 		{
-			printf("Number of threads: %d\n", num);
+			printf("| Number of threads      | %d              |\n", num);
+            printf("----------------------------------------------\n");
+
 		}
 	}
 
@@ -271,7 +289,9 @@ int main(int argc, char *argv[])
 			{
 				get_cpu_ticks();
 				get_disk_requests();
+                printf("==============================================\n");
 				get_context_switches_times();
+                printf("==============================================\n");
 				get_threads_num();
 			}
 			else if(arg2 == 'd')
